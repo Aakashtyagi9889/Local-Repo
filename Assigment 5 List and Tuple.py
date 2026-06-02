@@ -116,7 +116,7 @@ Intermediate Level
  
 16. Write a program to replace all negative numbers with zero in a list. 
 
- hello line 
+ hello line sdbah
 """
 
         
