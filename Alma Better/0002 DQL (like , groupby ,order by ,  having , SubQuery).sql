@@ -144,28 +144,64 @@ technology products which are greater than 20000*/
 
 select * from superstore_Sales;
 
-select
+select region , sum(sales) from superstore_sales
+where  category = 'Technology'
+group by region  
+having sum(sales) > 20000
+order by sum(sales) desc;
 
 /*Write a query to count the number 
 of orders for each Category where 
 the total number of orders is greater than 160*/
 
+select category , count(order_id) as Total_order from superstore_sales group by category having count(order_id)>160 ;
 
 /*Write a query to find the total profit 
 for each Sub-Category where the total profit 
 exceeds 6500*/
+select sub_category , sum(profit) from superstore_sales
+group by sub_category
+having sum(profit) > 6500
+order by sum(profit);
 
 /*Write a query to retrieve the total 
 sales for each State where the
 total sales are less than 50000*/
+select state , sum(sales) from superstore_sales
+group by state 
+having sum(sales)<50000
+order by sum(sales) ;
+
 
 /* Write a query to find the average 
 discount for each Region where the
 average discount is greater than 0.16*/
 
+select region , avg(discount) from superstore_sales
+group by region
+having avg(discount)>0.16
+order by avg(discount) desc;
 
 
+-------------------------------------------------------------------------------------------------------------------
+-- 								SUBQUERIES  
 
+-- Find the maximum sales
+select max(Sales) from superstore_sales;
+
+-- find order details which is giving highest sales;
+-- outer query + operator + (inner query)
+	--  order details (sales) = max(sales)
+select *  from superstore_sales
+where sales = (select max(sales) from superstore_sales);
+
+-- find the customer name who has giving minimun profit 
+select customer_name from superstore_sales
+where profit = (select min(profit) from superstore_sales);
+
+-- Find all customer whose sales are greater than the average sales.
+select * from superstore_sales
+where sales > (select avg(sales) from superstore_sales);
 
 
 
