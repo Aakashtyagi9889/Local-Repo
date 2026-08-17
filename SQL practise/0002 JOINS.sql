@@ -56,5 +56,31 @@ select * from customer cross join orders;
 
 # INNER JOIN (only common rows)
 select * from customer join orders using (cid);
-#Alter-nate way
+#Alter-nate way	
+select * from customer
+inner join orders on customer.cid = orders.cid;
+#Alter-nate way	
+select * from customer as c
+inner join orders as o on c.cid = o.cid;
 
+# LEFT JOIN
+SELECT * FROM customer
+Left JOIN orders on customer.cid = orders.cid;
+
+# RIGHT JOIN
+SELECT * FROM customer as c
+right join orders as o on c.cid = o.cid;
+
+# FULL JOIN
+SELECT * FROM customer c
+RIGHT JOIN orders o ON c.cid = o.cid
+UNION
+SELECT * FROM customer c
+LEFT JOIN orders o ON c.cid = o.cid;
+
+# SELF JOIN
+SELECT * FROM customer as c1
+JOIN customer as c2 ;
+# ALter_ nate 
+select * from customer as c1
+join customer as c2 on c1.cid = c2.cid; 
