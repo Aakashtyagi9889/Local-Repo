@@ -1,4 +1,4 @@
- /*
+/*
 1. Create a table Student with columns: 
 o student_id (Primary Key) 
 o name 
@@ -103,16 +103,7 @@ select * from students order by age desc;
 select * from students limit 3;
 */
 
-
-
-
-
-
 describe course;
 select * from students;
-
-
-
-
 
 
