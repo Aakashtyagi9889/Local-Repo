@@ -119,7 +119,7 @@ left join departments d on d.dept_id = e.dept_id;
 
 -- 5. Find employees who are not assigned to any department. 
 select e.emp_id ,  e.emp_name  from employees e 
-left join departments d on d.dept_id = e.dept_id where e.dept_id is null;
+left join departments d on d.dept_id = e.dept_id where d.dept_id is null;
 
 -- 6. Find employees whose department does not exist in departments table. 
 select e.emp_name ,e.dept_id from employees e
@@ -171,3 +171,119 @@ select * from employees;
 select * from departments;
 select * from employee_projects;
 select * from projects;
+-- ========================================================================================================================================= 
+
+CREATE DATABASE company_db;
+USE company_db;
+
+
+CREATE TABLE departments (
+dept_id INT,
+dept_name VARCHAR(50),
+location VARCHAR(50)
+);
+
+CREATE TABLE employees(
+emp_id INT,
+emp_name VARCHAR(50),
+salary DECIMAL(10,2),
+dept_id int
+);
+
+CREATE TABLE projects(
+project_id INT, 
+project_name VARCHAR(100),
+budget DECIMAL
+);
+
+CREATE TABLE employee_projects(
+emp_id INT,
+project_id INT,
+assigned_date DATE
+);
+
+INSERT INTO departments VALUES
+(1,'HR', 'Delhi'),
+(2,'IT', 'Noida'),
+(3,'Finanace', 'Mumbai'),
+(4,'Marketing', 'Pune');
+
+INSERT INTO employees VALUES
+(101,'Amit',50000,2),
+(102,'Neha',60000,2),
+(103,'Raj',45000,1),
+(104,'Priya',70000,3),
+(105,'Karan',55000,NULL),
+(106,'Simran',52000,5);
+
+INSERT INTO projects VALUES
+(201,'Website Development',200000),
+(202,'Payroll System',150000),
+(203,'Mobile App',300000),
+(204,'CRM Software',250000);
+
+INSERT INTO employee_projects VALUES
+(101,201,'2024-01-10'),
+(101,203,'2024-02-15'),
+(102,201,'2024-01-20'),
+(103,202,'2024-03-01'),
+(104,203,'2024-02-01'),
+(107,204,'2024-04-01');
+
+select emp_name , dept_name from employees as e
+join departments as d on  e.dept_id = d.dept_id ;
+
+select * from employees e
+join departments d on d.dept_id = e.dept_id where d.dept_name = "IT";
+
+select emp_name , location from employees e
+join departments d on e.dept_id = d.dept_id ;
+
+select * from employees e
+left join departments d on e.dept_id = d.dept_id;
+
+select * from employees e
+left join departments d on d.dept_id = e.dept_id where d.dept_id is null;
+
+select * from employees e
+left join departments d on d.dept_id = e.dept_id where e.dept_id is not null and d.dept_id is null;
+
+select * from employees e
+right join departments d on d.dept_id = e.dept_id;
+
+select e.emp_name , d.project_name ,p.assigned_date from employees e
+join employee_projects p on e.emp_id = p.emp_id
+join projects d on p.project_id = d.project_id;
+
+select * from employees e
+join employee_projects p on e.emp_id = p.emp_id
+join projects d on p.project_id = d.project_id where project_name= "Mobile App";
+
+select emp_name from employees e
+left join departments d on e.dept_id = d.dept_id where e.dept_id is not null and d.dept_id is null ;
+
+select * from employee_projects p
+left join employees e on e.emp_id = p.emp_id where p.emp_id is not null and e.emp_id is null ;
+
+select * from projects p 
+join employee_projects ep on  ep.project_id = p.project_id
+left join employees e on e.emp_id = ep.emp_id where ep.emp_id is not null and e.emp_id is null;
+
+select * from employee_projects;
+select * from projects;
+select * from employees;
+select * from departments;
+
+-- 13
+select distinct dept_name , sum(salary) from departments d
+join employees e on e.dept_id  = d.dept_id group BY d.dept_name  ;
+
+-- 14
+select p.project_name , count(ep.emp_id) from projects p 
+left join employee_projects ep on ep.project_id = p.project_id  group by p.project_name;
+
+
+-- 15 
+select d.dept_name , avg(e.salary) from departments d
+join employees e on e.dept_id = d.dept_id group by d.dept_name order by avg(e.salary) desc limit 1;
+
