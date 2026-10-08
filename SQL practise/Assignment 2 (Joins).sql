@@ -269,6 +269,7 @@ select * from projects p
 join employee_projects ep on  ep.project_id = p.project_id
 left join employees e on e.emp_id = ep.emp_id where ep.emp_id is not null and e.emp_id is null;
 
+-- 12  
 select * from employee_projects;
 select * from projects;
 select * from employees;
@@ -286,4 +287,5 @@ left join employee_projects ep on ep.project_id = p.project_id  group by p.proje
 -- 15 
 select d.dept_name , avg(e.salary) from departments d
 join employees e on e.dept_id = d.dept_id group by d.dept_name order by avg(e.salary) desc limit 1;
+
 
