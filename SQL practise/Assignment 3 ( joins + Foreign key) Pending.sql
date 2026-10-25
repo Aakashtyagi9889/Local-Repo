@@ -179,3 +179,48 @@ drop foreign  Key order_items_ibfk_2;
 
 alter table order_items
 add constraint Foreign key(order_id) references orders(order_id) ON delete CASCADE ON UPDATE CASCADE;
+
+--  9. Display customer name and order date. 
+select c.customer_name, o.order_date from customers c 
+join orders o on c.customer_id = o.customer_id;
+
+-- 10. Show all customers and their orders (including customers without orders).  
+select * from customers c
+left join orders o on c.customer_id = o.customer_id ;
+ 
+-- 11. Show all orders with customer name. 
+select * from customers c
+inner join orders o on c.customer_id = o.customer_id;
+
+-- 12. Display order_id, product_name, and quantity.  
+select order_id, product_name, quantity from products p
+join order_items o on p.product_id= o.product_id;
+
+-- 13. Show all products ordered by a specific customer. 
+select customer_name,product_name from products p
+join order_items oi on p.product_id = oi.product_id
+join orders o on o.order_id = oi.order_id
+join customers c on c.customer_id = o.customer_id where c.customer_id = 101;
+
+-- 14. Find customers who have placed at least one order. 
+select customer_name from customers c
+join orders o on c.customer_id = o.customer_id;
+
+select customer_name from customers c
+where exists(
+select 1 from orders o
+where o.customer_id = c.customer_id
+);
+
+-- 15. Find customers who have not placed any orders. 
+select * from customers c
+left join orders o on o.customer_id = c.customer_id where c.customer_id is not null and o.customer_id is null ; 
+
+select * from customers c
+left join orders o on o.customer_id = c.customer_id where o.order_id is null;
+
+
+
+
+
+
