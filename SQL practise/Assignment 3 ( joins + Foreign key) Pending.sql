@@ -256,8 +256,40 @@ join products p on p.product_id = op.product_id
 group by customer_name, price order by highest_amount desc limit 1;
 
 -- Section 4: Aggregate + JOIN 
+-- 21. Count number of orders per customer. 
+select c.customer_id, c.customer_name, count(o.order_id) from customers c 
+left join orders o on c.customer_id = o.customer_id
+group by customer_id , customer_name;
 
+-- 22. Show customers who have placed more than 2 orders. 
+select c.customer_id, c.customer_name, count(o.order_id) as total from customers c 
+left join orders o on c.customer_id = o.customer_id
+group by customer_id , customer_name
+having total > 2 ;
 
+-- 23. Find the average order value.
+select avg(total) from (select o.order_id , sum(quantity * price ) as Total from orders o
+join order_items op on op.order_id = o.order_id
+JOIN products p ON op.product_id = p.product_id GROUP BY o.order_id) as summary;
+
+-- 24. Find the product that generated the highest revenue. 
+select p.product_id , p.product_name, sum(p.price * op.quantity) AS total_revenue from products p
+left join order_items op on p.product_id = op.product_id
+group by p.product_id , p.product_name 
+order by total_revenue desc 
+limit 1;
+
+-- 25. Show top 3 customers by total spending. 
+select c.customer_name , sum(op.quantity*p.price) as Total_spending  from customers c
+join orders o on c.customer_id = o.customer_id
+join order_items op on op.order_id = o.order_id
+join products p on p.product_id = op.product_id
+group by c.customer_name ;
+
+-- Section 5: Advanced JOIN Challenges 
+ 
+
+ 
 select * from customers;
 select * from orders;
 select * from products;
