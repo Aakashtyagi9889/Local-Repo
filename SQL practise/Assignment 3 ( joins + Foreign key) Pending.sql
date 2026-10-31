@@ -219,8 +219,49 @@ left join orders o on o.customer_id = c.customer_id where c.customer_id is not n
 select * from customers c
 left join orders o on o.customer_id = c.customer_id where o.order_id is null;
 
+-- 16. Display customer name, order date, product name, and quantity.  
+
+select customer_name , order_date, product_name , quantity from customers c
+join orders o on c.customer_id = o.customer_id
+join order_items op on op.order_id = o.order_id
+join products p on op.product_id = p.product_id;
+
+-- 17. Show total quantity of each product sold. 
+select  p.product_name , sum(quantity) from products p
+join order_items op on op.product_id = p.product_id group by p.product_name;
+
+--  18. Find total amount spent by each customer.  
+select customer_name , sum(price * quantity) from customers c
+join orders o on c.customer_id = o.customer_id
+join order_items op on o.order_id = op.order_id
+join products p on p.product_id = op.product_id
+group by c.customer_id;
+
+-- 19. Show total order amount per order.
+SELECT 
+    o.order_id,
+    SUM(p.price * oi.quantity) AS total_order_amount
+FROM orders o
+JOIN order_items oi
+    ON o.order_id = oi.order_id
+JOIN products p
+    ON oi.product_id = p.product_id
+GROUP BY o.order_id;
+
+-- 20. Find the customer who spent the highest total amount.
+select customer_name , sum(price*quantity) as highest_amount from customers c
+join orders o on c.customer_id = o.customer_id
+join order_items op on o.order_id = op.order_id
+join products p on p.product_id = op.product_id
+group by customer_name, price order by highest_amount desc limit 1;
+
+-- Section 4: Aggregate + JOIN 
 
 
+select * from customers;
+select * from orders;
+select * from products;
+select * from order_items;
 
 
 
