@@ -287,7 +287,19 @@ join products p on p.product_id = op.product_id
 group by c.customer_name ;
 
 -- Section 5: Advanced JOIN Challenges 
- 
+
+-- 26. Find customers who ordered more than one different product in a single order.  
+select c.customer_id , c.customer_name , o.order_id , count(op.product_id) from customers c
+join orders o on o.customer_id = c.customer_id
+join order_items op on op.order_id = o.order_id
+group by c.customer_id , c.customer_name , o.order_id 
+having count(op.product_id)>1;
+
+ -- 27. Find products that have never been ordered.
+ select * from products p
+ left join order_items op on p.product_id = op.product_id
+ where p.product_id is not null and op.product_id is null;
+
 
  
 select * from customers;
@@ -295,5 +307,23 @@ select * from orders;
 select * from products;
 select * from order_items;
 
+-- 28. Find orders that contain more than 3 products.
+select o.order_id , count(distinct op.product_id) as Total_products from orders o
+join order_items op on o.order_id = op.order_id
+group by o.order_id
+having count(distinct op.product_id)>3;
+
+-- 29. Identify orphan records (if foreign key constraints were removed). 
+
+
+-- 30. Compare results of INNER JOIN vs LEFT JOIN on customers and orders. 
+select * from customers c
+join orders o on c.customer_id = o.customer_id;
+
+select * from customers c
+left join orders o on c.customer_id = o.customer_id;
+
+select * from customers c
+right join orders o on c.customer_id = o.customer_id;
 
 
