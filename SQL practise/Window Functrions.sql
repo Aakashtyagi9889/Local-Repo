@@ -1,0 +1,11 @@
+use ecommerce_db;
+-- Windows Functions
+-- all aggregate function are window function but use with over 
+-- partition by is used instead of group by
+-- rownumber(it gives index from 1),
+-- rank(it skip index of  repeating value ),
+-- denserank(it does skip any value ), 
+-- Ntile(divide whole data into specific group ), 
+-- Lag(will carry last value)
+-- Lead()it carry next column value
+-- First Value ()
