@@ -84,6 +84,25 @@ select distinct department , count(empid) over (partition by department) as tota
 	-- LAST_VALUE() use karke har department ki lowest salary show karo.
 	-- NTH_VALUE() use karke har department ki second highest salary show karo.
 	-- NTILE(3) use karke employees ko 3 salary groups mein divide karo.
+    
+    select *, lag(salary) over(order by salary desc)as previous_salary from employee;
+    select *, lead(salary) over() from employee;
+    
+    select *, lag(salary) over() as Previous_salary, salary-lag(salary) over()as Salary_diffrence  from employee;
+    SELECT EmpName, Salary,
+       LAG(Salary) OVER(
+           ORDER BY Salary
+       ) AS PreviousSalary,
+       Salary - LAG(Salary) OVER(
+           ORDER BY Salary
+       ) AS SalaryDifference
+FROM Employee;
 
+select EmpName, Department, Salary, first_value(salary) over(partition by department order by salary desc) from employee;
+-- Without FirstValue() ==> select EmpName, Department, Salary, max(salary) over(partition by department) from employee;
+select * from employee;
 
+select EmpName, Department, Salary, last_value(salary) over(partition by department order by salary desc rows between unbounded preceding and unbounded following)  from employee;
+
+select *, ntile(2) over() from employee;
 
