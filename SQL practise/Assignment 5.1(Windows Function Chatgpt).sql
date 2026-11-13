@@ -103,6 +103,5 @@ select EmpName, Department, Salary, first_value(salary) over(partition by depart
 select * from employee;
 
 select EmpName, Department, Salary, last_value(salary) over(partition by department order by salary desc rows between unbounded preceding and unbounded following)  from employee;
-
+select EmpName, Department, Salary, nth_value(salary,2) over(partition by department order by salary desc rows between unbounded preceding and unbounded following) as Second_highest from employee;
 select *, ntile(2) over() from employee;
-
